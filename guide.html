@@ -868,6 +868,27 @@
     .build-grid { grid-template-columns: 1fr; }
   }
 
+
+  .repo-link {
+    position: absolute;
+    top: 10px;
+    right: clamp(18px, 4vw, 56px);
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 11px;
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-decoration: none;
+    transition: color .2s, border-color .2s;
+  }
+  .repo-link:hover { color: var(--gold-2); border-color: #d9a44166; }
+  @media (max-width: 720px) {
+    .repo-link { position: static; margin: 10px 0 0; }
+  }
 </style>
 </head>
 <body>
@@ -895,6 +916,7 @@
       <div><span id="statBuilds">—</span><label>推荐</label></div>
     </div>
   </div>
+    <a class="repo-link" href="https://github.com/Newwbbie/yyzy-codex" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
   <nav class="tabs">
     <a class="tab" href="index.html">图鉴</a>
     <a class="tab is-active" href="guide.html">对局攻略</a>
