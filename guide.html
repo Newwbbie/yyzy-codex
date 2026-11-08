@@ -1,0 +1,1732 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>对局攻略 · 月圆之夜</title>
+<style>
+
+
+  :root {
+    --ink: #0d0b09;
+    --ink-2: #14100c;
+    --panel: #19130e;
+    --panel-2: #211912;
+    --line: #34291c;
+    --line-soft: rgba(217, 164, 65, .14);
+    --paper: #ece2cc;
+    --paper-dim: #c8b99e;
+    --muted: #93846c;
+    --gold: #d9a441;
+    --gold-2: #f2cd78;
+    --blood: #c04a3d;
+    --jade: #7aa98d;
+    --display: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    --body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --mono: "SFMono-Regular", "Menlo", "Consolas", monospace;
+    --shadow: 0 24px 60px -38px #000;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--paper);
+    font-family: var(--body);
+    background:
+      radial-gradient(1200px 520px at 12% -12%, rgba(114, 78, 24, .38), transparent 62%),
+      radial-gradient(900px 520px at 96% 104%, rgba(104, 34, 28, .28), transparent 55%),
+      linear-gradient(180deg, #0f0c09 0%, #0b0907 55%, #0d0a08 100%);
+    background-attachment: fixed;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(rgba(236, 226, 204, .07) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.55), transparent 68%);
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  ::selection { background: rgba(217, 164, 65, .35); color: #fff; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #3a2d1d; border-radius: 20px; border: 2px solid #0d0b09; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  .masthead {
+    position: relative;
+    z-index: 2;
+    padding: 30px clamp(18px, 4vw, 56px) 0;
+  }
+  .masthead__top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .seal {
+    width: 52px; height: 52px;
+    display: grid; place-items: center;
+    color: #f6e8c8;
+    font-family: var(--display);
+    font-size: 28px;
+    background: linear-gradient(145deg, #8e2f28, #5f1d19);
+    border: 1px solid #d9a44188;
+    box-shadow: inset 0 0 0 3px #2a0f0c, 0 10px 24px -14px #000;
+    transform: rotate(-3deg);
+  }
+  .eyebrow {
+    margin: 0 0 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .34em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(28px, 3.4vw, 46px);
+    letter-spacing: .04em;
+    color: var(--paper);
+    text-shadow: 0 2px 24px rgba(217, 164, 65, .12);
+  }
+  .ledger { display: flex; gap: clamp(18px, 3vw, 40px); }
+  .ledger div { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .ledger span {
+    font-family: var(--mono);
+    font-size: clamp(22px, 2.4vw, 32px);
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .ledger label {
+    font-size: 11px;
+    letter-spacing: .22em;
+    color: var(--muted);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 30px;
+    margin-top: 18px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .tab {
+    position: relative;
+    padding: 10px 2px 13px;
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font-size: 15px;
+    letter-spacing: .08em;
+    transition: color .2s;
+  }
+  .tab em {
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 10px;
+    color: inherit;
+    opacity: .7;
+    margin-left: 6px;
+  }
+  .tab::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .tab:hover { color: var(--paper-dim); }
+  .tab.is-active { color: var(--gold-2); }
+  .tab.is-active::after { opacity: 1; }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+    padding: 16px 0 20px;
+  }
+  .search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 280px;
+    padding: 0 14px;
+    height: 40px;
+    background: rgba(25, 19, 14, .8);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+  .search span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .22em;
+    color: var(--gold);
+  }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    outline: none;
+    color: var(--paper);
+    font-size: 14px;
+  }
+  .search input::placeholder { color: #6f6352; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    padding: 7px 12px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .06em;
+    transition: all .18s;
+  }
+  .chip:hover { border-color: #59452b; color: var(--paper-dim); }
+  .chip.is-active {
+    color: #1a1209;
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+  .select { display: flex; align-items: center; gap: 8px; }
+  .select span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--muted);
+  }
+  .select select {
+    height: 40px;
+    padding: 0 30px 0 12px;
+    background: rgba(25, 19, 14, .8);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--paper-dim);
+    outline: none;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #8d7a5f 50%), linear-gradient(135deg, #8d7a5f 50%, transparent 50%);
+    background-position: calc(100% - 16px) 17px, calc(100% - 11px) 17px;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    padding: 8px clamp(18px, 4vw, 56px) 90px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: clamp(14px, 1.6vw, 22px);
+  }
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(33, 25, 18, .9), rgba(20, 15, 11, .95));
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    animation: rise .55s cubic-bezier(.2, .7, .2, 1) both;
+    animation-delay: calc(min(var(--i, 0), 22) * 16ms);
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  }
+  .tile:hover {
+    transform: translateY(-4px);
+    border-color: rgba(217, 164, 65, .48);
+    box-shadow: 0 30px 48px -30px #000, 0 0 0 1px rgba(217, 164, 65, .12);
+  }
+  .tile__art {
+    display: block;
+    width: 100%;
+    aspect-ratio: 271 / 408;
+    object-fit: cover;
+    background: #080605;
+    filter: saturate(.94) contrast(1.03);
+    transition: transform .35s ease, filter .35s ease;
+  }
+  .tile:hover .tile__art { transform: scale(1.025); filter: saturate(1.04) contrast(1.05); }
+  .tile__placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 271 / 408;
+    color: #4b3d2b;
+    font-family: var(--display);
+    font-size: 30px;
+    background: repeating-linear-gradient(135deg, #120e0a 0 10px, #15100c 10px 20px);
+  }
+  .tile__body { padding: 10px 12px 12px; }
+  .tile__name {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: var(--display);
+    font-size: 17px;
+    letter-spacing: .03em;
+    color: var(--paper);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .tile__name span:first-child { overflow: hidden; text-overflow: ellipsis; }
+  .tile__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .kind {
+    padding: 2px 5px;
+    border: 1px solid #4a3b28;
+    color: #b9a583;
+    letter-spacing: .08em;
+  }
+  .kind.golden { border-color: #8a6a2c; color: var(--gold-2); }
+  .stars { color: var(--gold); letter-spacing: .06em; font-size: 11px; }
+  .tile__missing {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    padding: 3px 7px;
+    background: rgba(120, 34, 28, .92);
+    border: 1px solid rgba(236, 226, 204, .18);
+    color: #ffe6d8;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .12em;
+    backdrop-filter: blur(4px);
+  }
+  .tile__edited {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    width: 7px; height: 7px;
+    background: var(--jade);
+    box-shadow: 0 0 10px rgba(122, 169, 141, .9);
+    border-radius: 50%;
+  }
+  .tile__missing-fields {
+    margin-top: 8px;
+    font-size: 10px;
+    color: #c98d80;
+    letter-spacing: .03em;
+  }
+
+  .empty {
+    padding: 90px 20px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty strong {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--display);
+    font-size: 26px;
+    color: var(--paper-dim);
+    font-weight: 500;
+  }
+  .sentinel { height: 1px; }
+
+  .loading {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    background: #0b0907;
+    transition: opacity .4s, visibility .4s;
+  }
+  .loading.is-done { opacity: 0; visibility: hidden; }
+  .loading__inner { text-align: center; }
+  .loading__inner p {
+    margin: 16px 0 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .3em;
+    color: var(--gold);
+  }
+  .spinner {
+    width: 34px; height: 34px;
+    margin: 0 auto;
+    border: 1px solid #3a2d1d;
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin .9s linear infinite;
+  }
+
+  .drawer { position: fixed; inset: 0; z-index: 30; pointer-events: none; }
+  .drawer.is-open { pointer-events: auto; }
+  .drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 5, 4, .62);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .drawer.is-open .drawer__backdrop { opacity: 1; }
+  .drawer__panel {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: min(600px, 100vw);
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(700px 280px at 100% 0%, rgba(120, 82, 26, .16), transparent 60%),
+      linear-gradient(180deg, #19130e, #100c09);
+    border-left: 1px solid rgba(217, 164, 65, .24);
+    box-shadow: -40px 0 80px -50px #000;
+    transform: translateX(102%);
+    transition: transform .38s cubic-bezier(.2, .8, .2, 1);
+  }
+  .drawer.is-open .drawer__panel { transform: translateX(0); }
+  .drawer__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .drawer__head h2 {
+    margin: 5px 0 0;
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: .03em;
+  }
+  .drawer__head .kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .24em;
+    color: var(--gold);
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--paper-dim);
+    font-size: 18px;
+    transition: all .2s;
+  }
+  .icon-btn:hover { border-color: var(--gold); color: var(--gold-2); }
+  .drawer__scroll { flex: 1; overflow-y: auto; padding: 22px 28px 30px; }
+  .drawer__art {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 20px;
+  }
+  .drawer__art img {
+    width: min(300px, 68%);
+    border: 1px solid #3a2d1d;
+    box-shadow: 0 30px 60px -35px #000, 0 0 0 1px rgba(217, 164, 65, .08);
+  }
+  .drawer__art .art-path {
+    position: absolute;
+    right: 0; bottom: 4px;
+    max-width: 56%;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #6e604b;
+    text-align: right;
+    word-break: break-all;
+  }
+  .banner {
+    margin-bottom: 18px;
+    padding: 11px 13px;
+    border-left: 2px solid var(--blood);
+    background: rgba(120, 34, 28, .13);
+    color: #dca99d;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .banner.ok { border-left-color: var(--jade); background: rgba(64, 104, 80, .12); color: #a9c9b6; }
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field.wide { grid-column: 1 / -1; }
+  .field label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 9px 10px;
+    background: #0e0b08;
+    border: 1px solid #33281a;
+    border-radius: 2px;
+    color: var(--paper);
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(217, 164, 65, .1);
+  }
+  .field input.is-regressed, .field select.is-regressed { border-color: #7d3b32; box-shadow: 0 0 0 2px rgba(192, 74, 61, .12); }
+  .field textarea { min-height: 104px; resize: vertical; line-height: 1.65; }
+  .field .old {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #9a6a4d;
+    word-break: break-all;
+  }
+  .race-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .race-grid label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 8px;
+    border: 1px solid #33281a;
+    border-radius: 2px;
+    font-family: var(--body);
+    font-size: 11px;
+    letter-spacing: 0;
+    color: var(--paper-dim);
+    text-transform: none;
+    cursor: pointer;
+  }
+  .race-grid input { width: auto; accent-color: var(--gold); }
+  .drawer__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 28px;
+    border-top: 1px solid var(--line-soft);
+    background: rgba(13, 11, 9, .86);
+    backdrop-filter: blur(8px);
+  }
+  .drawer__foot .hint {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .1em;
+    color: #6e604b;
+  }
+  .btn {
+    padding: 10px 18px;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--paper-dim);
+    font-size: 13px;
+    letter-spacing: .08em;
+    transition: all .2s;
+  }
+  .btn:hover { border-color: #6b5533; color: var(--paper); }
+  .btn.primary {
+    border-color: var(--gold);
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    color: #1a1209;
+    font-weight: 600;
+  }
+  .btn.primary:hover { filter: brightness(1.06); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  .toast {
+    position: fixed;
+    left: 50%; bottom: 28px;
+    z-index: 50;
+    transform: translate(-50%, 20px);
+    padding: 11px 18px;
+    background: #15110d;
+    border: 1px solid #3d6a51;
+    color: #b7d8c4;
+    font-size: 13px;
+    letter-spacing: .04em;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .25s;
+    box-shadow: 0 20px 40px -25px #000;
+  }
+  .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+  .toast.error { border-color: #7d3b32; color: #e2b3a8; }
+
+  .error-screen {
+    position: fixed; inset: 0; z-index: 60;
+    display: grid; place-items: center;
+    background: #0b0907;
+    padding: 30px;
+    text-align: center;
+  }
+  .error-screen h2 { font-family: var(--display); font-size: 28px; font-weight: 500; }
+  .error-screen pre { color: #c98d80; font-size: 12px; white-space: pre-wrap; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 720px) {
+    .masthead__top { align-items: flex-start; flex-direction: column; }
+    .ledger { align-self: stretch; justify-content: space-between; }
+    .ledger div { align-items: flex-start; }
+    .form-grid { grid-template-columns: 1fr; }
+    .drawer__panel { width: 100vw; }
+    .drawer__head, .drawer__scroll, .drawer__foot { padding-left: 18px; padding-right: 18px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+
+
+  /* ===== 月圆之夜图鉴 ===== */
+  .codex-sub {
+    margin: 8px 0 0;
+    font-size: 12px;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+  .codex-sub b { color: var(--gold-2); font-weight: 500; }
+  .tile__golden {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    z-index: 2;
+    padding: 3px 7px;
+    background: rgba(20, 14, 8, .82);
+    border: 1px solid #8a6a2c;
+    color: var(--gold-2);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .12em;
+    backdrop-filter: blur(4px);
+  }
+  .codex-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+    gap: 10px;
+    margin: 0 0 18px;
+  }
+  .codex-stat {
+    padding: 10px 12px;
+    border: 1px solid var(--line-soft);
+    background: rgba(25, 19, 14, .72);
+  }
+  .codex-stat span {
+    display: block;
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .codex-stat label {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--muted);
+  }
+  .codex-desc {
+    padding: 14px 16px;
+    border-left: 2px solid var(--gold);
+    background: rgba(217, 164, 65, .06);
+    color: var(--paper);
+    line-height: 1.85;
+    white-space: pre-wrap;
+    font-size: 14px;
+  }
+  .codex-section { margin-top: 20px; }
+  .codex-section h3 {
+    margin: 0 0 9px;
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    color: var(--paper);
+  }
+  .codex-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .codex-tag {
+    padding: 5px 10px;
+    border: 1px solid #4a3b28;
+    background: rgba(217, 164, 65, .05);
+    color: #cbb78f;
+    font-size: 12px;
+  }
+  .codex-tag.is-active {
+    color: #1a1209;
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+  .golden-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 8px 14px;
+    border: 1px solid #8a6a2c;
+    background: rgba(217, 164, 65, .08);
+    color: var(--gold-2);
+    font-size: 12px;
+    letter-spacing: .08em;
+  }
+  .golden-toggle:hover { background: rgba(217, 164, 65, .16); }
+  .codex-hint { color: var(--muted); font-size: 12px; line-height: 1.8; }
+  .codex-skill {
+    padding: 12px 14px;
+    border: 1px solid var(--line-soft);
+    background: rgba(25, 19, 14, .6);
+    line-height: 1.8;
+  }
+  .codex-skill b { color: var(--gold-2); font-weight: 500; }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); }
+    .drawer__panel { width: 100vw; }
+  }
+
+
+
+  /* ===== 对局攻略 ===== */
+  .site-nav { display: flex; gap: 8px; }
+  .site-nav a { text-decoration: none; display: inline-flex; align-items: center; }
+  a.tab { text-decoration: none; display: inline-flex; align-items: center; }
+  .guide-block {
+    margin: 0 0 26px;
+    padding: 20px 22px;
+    border: 1px solid var(--line-soft);
+    background: linear-gradient(180deg, rgba(33,25,18,.72), rgba(17,13,9,.66));
+  }
+  .guide-block h2 {
+    margin: 0 0 4px;
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: .04em;
+  }
+  .guide-block .sub { margin: 0 0 16px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+  .race-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .race-chip { min-width: 72px; }
+  .race-chip.is-active { color: #1a1209; background: linear-gradient(145deg, var(--gold-2), var(--gold)); border-color: var(--gold); font-weight: 600; }
+  .race-chip:disabled { opacity: .35; cursor: not-allowed; }
+  .guide-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+  .guide-actions .hint { color: var(--muted); font-size: 12px; }
+  .toggle-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; color: var(--paper-dim); font-size: 12px; }
+  .toggle-row label { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+  .toggle-row input { accent-color: var(--gold); }
+  .pool-tier { margin-top: 22px; }
+  .pool-tier__head {
+    display: flex; align-items: baseline; gap: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--line-soft);
+    font-family: var(--display); font-size: 18px; color: var(--gold-2);
+  }
+  .pool-tier__head span { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; color: var(--muted); }
+  .tier-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tier-tab {
+    padding: 4px 11px;
+    background: transparent;
+    border: 1px solid var(--line-soft);
+    border-radius: 2px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    transition: color .18s, border-color .18s, background .18s;
+  }
+  .tier-tab span { margin-left: 5px; opacity: .6; }
+  .tier-tab:hover:not(:disabled) { border-color: #59452b; color: var(--paper-dim); }
+  .tier-tab.is-active { color: var(--gold-2); border-color: rgba(217, 164, 65, .55); background: rgba(217, 164, 65, .07); }
+  .tier-tab:disabled { opacity: .3; cursor: not-allowed; }
+  .pool-races { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px 22px; margin-top: 14px; }
+  .pool-race { margin: 0; }
+  .pool-race__head { margin-bottom: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); }
+  .pool-cards { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pool-card {
+    width: 104px; padding: 0; overflow: hidden; text-align: left;
+    border: 1px solid var(--line-soft); background: rgba(20,15,11,.85);
+    transition: transform .18s, border-color .18s;
+  }
+  .pool-card:hover { transform: translateY(-3px); border-color: rgba(217,164,65,.5); }
+  .pool-card img { display: block; width: 100%; aspect-ratio: 271 / 408; object-fit: cover; background: #080605; }
+  .pool-card__body { padding: 7px 8px 8px; }
+  .pool-card__name { font-family: var(--display); font-size: 13px; color: var(--paper); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pool-card__meta { margin-top: 4px; font-family: var(--mono); font-size: 9px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pool-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .pool-summary div { padding: 10px 12px; border: 1px solid var(--line-soft); background: rgba(25,19,14,.6); }
+  .pool-summary b { display: block; font-family: var(--display); font-size: 15px; color: var(--gold-2); font-weight: 500; }
+  .pool-summary span { display: block; margin-top: 4px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+  .build-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; }
+  .build-card { padding: 16px; border: 1px solid var(--line-soft); background: rgba(20,15,11,.78); }
+  .build-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .build-card__head h3 { margin: 0; font-family: var(--display); font-size: 20px; font-weight: 500; }
+  .build-card__meta { margin-top: 5px; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--muted); }
+  .strength { padding: 4px 8px; border: 1px solid #8a6a2c; color: var(--gold-2); font-family: var(--mono); font-size: 10px; letter-spacing: .12em; }
+  .build-card__note { margin: 12px 0; color: var(--paper-dim); font-size: 12px; line-height: 1.75; }
+  .drain-line { margin: 0 0 12px; padding: 10px 12px; border: 1px solid rgba(120,96,46,.5); background: rgba(217,164,65,.05); }
+  .drain-line__top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .drain-line__top b { font-family: var(--display); font-size: 14px; font-weight: 500; color: var(--paper); }
+  .drain-grade { padding: 2px 7px; border: 1px solid #8a6a2c; color: var(--gold-2); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; }
+  .drain-grade.is-a { border-color: rgba(217,164,65,.45); color: var(--gold-2); }
+  .drain-grade.is-b, .drain-grade.is-c { border-color: var(--line-soft); color: var(--muted); }
+  .drain-chain { color: var(--paper-dim); font-size: 11px; line-height: 1.7; }
+  .drain-note { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+  .core-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .core-card {
+    position: relative; width: 92px; margin: 0; overflow: hidden;
+    border: 1px solid var(--line-soft); background: rgba(20,15,11,.85);
+  }
+  .core-card img {
+    display: block; width: 100%; aspect-ratio: 271 / 408; object-fit: cover;
+    background: repeating-linear-gradient(135deg, #120e0a 0 10px, #15100c 10px 20px);
+  }
+  .core-card__placeholder {
+    display: grid; place-items: center; width: 100%; aspect-ratio: 271 / 408;
+    color: #4b3d2b; font-family: var(--display); font-size: 12px;
+    background: repeating-linear-gradient(135deg, #120e0a 0 8px, #15100c 8px 16px);
+  }
+  .core-card__body { padding: 5px 6px 6px; }
+  .core-card__name {
+    display: block; font-family: var(--display); font-size: 11px; color: var(--paper);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .core-card__meta {
+    display: block; margin-top: 3px; font-family: var(--mono); font-size: 9px; color: var(--muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .core-card__gold {
+    position: absolute; top: 5px; right: 5px; z-index: 1;
+    padding: 1px 5px; background: rgba(20,14,8,.86); border: 1px solid #8a6a2c;
+    color: var(--gold-2); font-family: var(--mono); font-size: 8px; letter-spacing: .1em;
+  }
+  .mech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+  .mech {
+    padding: 3px 8px; border: 1px solid #4a3b28; background: rgba(217,164,65,.04);
+    color: #cbb78f; font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+  }
+  .mech b { margin-left: 5px; color: var(--gold-2); font-weight: 500; }
+  .strength b { margin-left: 4px; color: var(--paper); font-weight: 500; }
+  .build-card__heroes {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
+    margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line-soft);
+    color: var(--muted); font-size: 11px;
+  }
+  .hero-label { color: var(--muted); }
+  .hero-pick { display: inline-flex; align-items: center; gap: 7px; color: var(--paper-dim); }
+  .hero-avatar {
+    border-radius: 50%; object-fit: cover; object-position: center 14%;
+    border: 1px solid rgba(217, 164, 65, .45); background: #080605;
+    flex: none;
+  }
+  .hero-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .hero-card { padding: 14px 15px; border: 1px solid var(--line-soft); background: rgba(20,15,11,.72); }
+  .hero-card__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .hero-card__top h3 {
+    display: flex; align-items: center; gap: 10px;
+    margin: 0; font-family: var(--display); font-size: 18px; font-weight: 500;
+  }
+  .tier-badge { padding: 3px 7px; border: 1px solid #8a6a2c; color: var(--gold-2); font-family: var(--mono); font-size: 9px; letter-spacing: .1em; }
+  .hero-card__skill { margin-top: 7px; color: var(--paper-dim); font-size: 12px; line-height: 1.7; }
+  .hero-card__why { margin-top: 7px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+  .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .rule { padding: 12px 14px; border-left: 2px solid var(--gold); background: rgba(217,164,65,.05); color: var(--paper-dim); font-size: 12px; line-height: 1.75; }
+  .rule b { color: var(--gold-2); font-weight: 500; }
+  .sources { margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 11px; line-height: 1.9; }
+  .sources a { color: var(--gold-2); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  .guide-empty { padding: 34px 10px; text-align: center; color: var(--muted); font-size: 13px; }
+  @media (max-width: 720px) {
+    .pool-card { width: calc(50% - 5px); }
+    .build-grid { grid-template-columns: 1fr; }
+  }
+
+</style>
+</head>
+<body>
+<div class="loading" id="loading">
+  <div class="loading__inner">
+    <div class="seal" style="margin:0 auto 18px">月</div>
+    <div class="spinner"></div>
+    <p>正在推算卡池…</p>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="brand">
+      <div class="seal">月</div>
+      <div>
+        <p class="eyebrow">MOONLIGHT NIGHT · FIELD GUIDE</p>
+        <h1>对局攻略</h1>
+        <p class="codex-sub">4 种族 · 6 人口 · 3 金币/卡 · 最高 6 星</p>
+      </div>
+    </div>
+    <div class="ledger">
+      <div><span id="statRaces">4</span><label>种族</label></div>
+      <div><span id="statPool">—</span><label>卡池</label></div>
+      <div><span id="statBuilds">—</span><label>推荐</label></div>
+    </div>
+  </div>
+  <nav class="tabs">
+    <a class="tab" href="index.html">图鉴</a>
+    <a class="tab is-active" href="guide.html">对局攻略</a>
+  </nav>
+</header>
+
+<main>
+  <section class="guide-block">
+    <h2>1. 选择本局 4 个种族</h2>
+    <p class="sub">中立卡始终可用，不需要选择。每个种族会带入本族的随从和阵营专属咒术；装备不占种族，默认全部可用。</p>
+    <div class="race-grid" id="racePicker"></div>
+    <div class="guide-actions">
+      <button class="chip" id="randomRaces">随机 4 种族</button>
+      <button class="chip" id="clearRaces">清空</button>
+      <span class="hint" id="raceHint">已选 0 / 4</span>
+    </div>
+    <div class="toggle-row">
+      <label><input type="checkbox" id="showSpells" checked> 计入咒术</label>
+      <label><input type="checkbox" id="showEquipment" checked> 计入装备</label>
+    </div>
+  </section>
+
+  <section class="guide-block">
+    <h2>2. 当前对局卡池</h2>
+    <p class="sub">按星级分组，每个星级可切换随从 / 装备 / 咒术；只显示本局出现的种族 + 中立。点卡牌可看详情。</p>
+    <div id="poolSummary" class="pool-summary"></div>
+    <div id="poolTiers"></div>
+  </section>
+
+  <section class="guide-block">
+    <h2>3. 推荐打法（按强度排序）</h2>
+    <p class="sub">买牌 3 金币、卖出 1 金币，刷新与经验都按 1 金币折算。带 * 的倍率卡同名不叠加（普通 ×2 / 金色 ×3），拿到一张后应把资源投给引擎和燃料。评分 = 卡池质量 + 5-6 星终场身材 + 机制浓度 + 资源倒转加成，只在本局 4 个种族之间比较。</p>
+    <div id="buildArea"></div>
+    <div id="heroArea" style="margin-top:24px"></div>
+  </section>
+
+</main>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-close></div>
+  <section class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div class="drawer__head">
+      <div>
+        <div class="kicker" id="drawerKicker">CARD</div>
+        <h2 id="drawerTitle">—</h2>
+      </div>
+      <button class="icon-btn" data-close aria-label="关闭">×</button>
+    </div>
+    <div class="drawer__scroll" id="drawerBody"></div>
+  </section>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  const RACES = ["战士", "自然", "龙", "机械", "幽灵", "野兽", "星裔", "元素"];
+  const RACE_ORDER = ["中立", ...RACES, "装备"];
+  const TIER_KINDS = [
+    { kind: "follower", label: "随从" },
+    { kind: "equipment", label: "装备" },
+    { kind: "spell", label: "咒术" },
+  ];
+  const KIND_LABELS = {
+    follower: "随从", equipment: "装备", spell: "咒术", hero: "英雄",
+    partner: "舞伴", story: "故事", contract: "契约", treasure: "珍宝", adventure: "奇遇",
+  };
+  const TIER_WEIGHT = { 1: 1, 2: 1.5, 3: 2, 4: 2.6, 5: 3.2, 6: 3.8 };
+  const MECH_IGNORE = new Set(["阵营"]);
+  const GRADE_LINES = [["S", 85], ["A", 79], ["B", 73]];
+  const MECH_NOTE = {
+    遗言: "遗言单位铺场后随交换持续产出",
+    先手: "先手触发按站位顺序结算",
+    附着: "附着与入场把两族资源串起来",
+    成长: "成长在中后期持续放大身材",
+    亡魂: "亡魂铺场后靠倍率与遗言滚雪球",
+    护盾: "护盾与嘲讽撑住中前期节奏",
+    入场: "入场效果负责铺场与资源转换",
+    烧伤: "烧伤负责持续消耗与破盾",
+    冥想: "冥想提供稳定的资源与咒术循环",
+    击杀: "击杀触发越打越强",
+    星团: "星团把咒术与随从资源互相转换",
+    抉择: "抉择提供灵活的中期转型",
+  };
+
+  // 资源倒转：商店买牌 3 金币、卖出 1 金币，刷新与经验都按 1 金币折算。
+  // 带 * 的倍率卡同名不叠加（普通 ×2、金色 ×3）；体系的本质是「倍率核心 + 引擎 + 燃料」，
+  // 当倍率后的单次收益 ≥ 获取燃料的净成本（买牌 2 金币）时，循环才开始正收益。
+  // 卡库描述里 OCR 常把 1 读成 I，数字匹配统一用 [0-9I]。
+  const DRAIN_SYSTEMS = [
+    {
+      key: "entry", name: "入场倒转", mech: "入场",
+      mult: /你的入场效果.*触发\s*[0-9I]\s*次/,
+      engines: [
+        /每购买\s*[0-9I]*\s*张牌.*野兽牌/,
+        /每刷新\s*[0-9I]+\s*次.*阵营的随从/,
+        /回合开始时，触发.*入场/,
+        /歌声：触发.*入场/,
+        /随机获得\s*[0-9I]*\s*张入场牌/,
+        /商店升级后，随机获得.*入场牌/,
+      ],
+      fuel: /入场/,
+      pay: /入场[；;，,]?.*：获得\s*[0-9I]+\s*点?(金币|经验)|触发入场效果时获得\s*[0-9I]+\s*点经验/,
+      note: "狗头把每次入场收益翻倍；城市乐手（购买）和私家侦探（刷新）持续产出入场牌，买牌成本被入场收益抵消后开始白嫖过牌。",
+    },
+    {
+      key: "growth", name: "成长/自然倒转", mech: "成长",
+      mult: /你的成长效果.*触发\s*[0-9I]\s*次/,
+      engines: [/成长：随机获得/, /随机获得.*自然牌/, /友方触发成长效果时/, /成长：.*获得.*金币/],
+      fuel: /成长/,
+      pay: /成长：获得\s*[0-9I]+\s*点?金币|成长：获得\s*[0-9I]+\s*点经验|成长：每存在.*经验/,
+      note: "成长在招募阶段自动结算；双倍成长配海盗宝箱（金币）、希望种子（经验），每回合稳定产出资源，是最省操作的倒转。",
+    },
+    {
+      key: "choice", name: "先王抉择倒转", mech: "抉择",
+      mult: /你的抉择效果.*触发\s*[0-9I]\s*次/,
+      engines: [
+        /每回合.*刷出\s*[0-9I]+\s*张抉择牌/,
+        /抉择：获得\s*[0-9I]+\s*点经验/,
+        /抉择：获得\s*[0-9I]+\s*次免费刷新/,
+        /抉择时同时拥有两种效果/,
+        /歌声：随机获得.*抉择牌/,
+        /获得.*张抉择牌/,
+      ],
+      fuel: /抉择/,
+      pay: /抉择：获得\s*[0-9I]+\s*点?金币|抉择：获得\s*[0-9I]+\s*点经验|抉择：获得\s*[0-9I]+\s*次免费刷新/,
+      note: "魅影每回合免费刷出抉择牌，先王怨灵让每次抉择结算两遍；剧情编织者的经验/刷新收益翻倍后，一次抉择净赚 2 点资源。",
+    },
+    {
+      key: "meditate", name: "冥想倒转", mech: "冥想",
+      mult: /你的冥想效果.*触发\s*[0-9I]\s*次/,
+      engines: [/获得\s*[0-9I]+\s*张冥想随从/, /冥想加速/, /刷出\s*[0-9I]+\s*张冥想牌/, /重新冥想/],
+      fuel: /冥想/,
+      pay: /冥想\s*[0-9I]+\s*回合：获得\s*[0-9I]+\s*点经验|冥想\s*[0-9I]+\s*回合：本局游戏金币收入|友方每冥想\s*[0-9I]+\s*回合获得\s*[0-9I]+\s*点经验/,
+      note: "冥想等待对应回合自动触发；科学家给经验、小财星给永久金币收入，双倍冥想把每回合收益翻倍，回合数就是复利。",
+    },
+    {
+      key: "first", name: "先手倒转", mech: "先手",
+      mult: /你的先手效果.*触发\s*[0-9I]\s*次/,
+      engines: [/攻击后，触发同排其他友方的先手效果/, /每死亡\s*[0-9I]+\s*个友方，触发本随从先手效果/, /触发.*先手效果/],
+      fuel: /先手/,
+      pay: /先手：获得\s*[0-9I]+\s*点?金币|每累计触发\s*[0-9I]+\s*次先手效果.*咒术/,
+      note: "先手在战斗开始结算；双倍先手让财宝巨龙每场稳定产金币，灾厄巨龙还能让同排再触发一遍先手。",
+    },
+    {
+      key: "death", name: "遗言倒转", mech: "遗言",
+      mult: /你的遗言效果.*触发\s*[0-9I]\s*次/,
+      engines: [/遗言：召唤/, /召唤.*遗言/, /友方遗言随从死亡时/],
+      fuel: /遗言/,
+      pay: /友方遗言随从死亡时，获得\s*[0-9I]+\s*点?金币|遗言：获得\s*[0-9I]+\s*点?金币/,
+      note: "遗言单位负责铺场和交换；三倍遗言配龙蛋吞噬者，每次死亡都回金币，机械/龙/幽灵的召唤链最容易滚起来。",
+    },
+    {
+      key: "kill", name: "击杀倒转", mech: "击杀",
+      mult: /互相共享击杀效果/,
+      engines: [/触发.*击杀效果/, /友方具有.*击杀/],
+      fuel: /击杀/,
+      pay: /击杀：获得\s*[0-9I]+\s*点?金币/,
+      note: "击杀收益共享后，每次击杀都按友方数量结算；幽灵大盗和割破钱袋把击杀转成金币。",
+    },
+    {
+      key: "summon", name: "召唤/附着倒转", mech: "召唤",
+      mult: null,
+      engines: [
+        /在战斗中召唤随从后，获得\s*[0-9I]*\s*点?金币/,
+        /在战斗中召唤随从后，获得.*免费刷新/,
+        /友方被附着后获得.*免费刷新/,
+        /购买随从牌后/,
+        /对友方使用附着随从后/,
+      ],
+      fuel: /召唤|附着/,
+      pay: /在战斗中召唤随从后，获得\s*[0-9I]*\s*点?金币|获得\s*[0-9I]+\s*次免费刷新/,
+      note: "召唤/附着本身就是触发器；零件商贩回金币、钟楼守卫和发条舞者回免费刷新，机械铺场等于免费刷新。",
+    },
+    {
+      key: "equip", name: "装备倒转", mech: "装备",
+      mult: /战士在战斗中获得的属性值翻倍?/,
+      engines: [/每装备\s*[0-9I]\s*件装备.*获得\s*[0-9I]*\s*点?金币/, /每回合.*免费刷新.*装备/, /购买或卖出装备牌后/],
+      fuel: /装备/,
+      pay: /每装备\s*[0-9I]\s*件装备.*获得\s*[0-9I]*\s*点?金币/,
+      note: "收藏家和黄金剑按装备件数回金币；寻宝者的免费刷新稳定刷出装备，装备越多人均收益越高。",
+    },
+  ];
+
+  const state = {
+    cards: [], normals: [], goldens: new Map(), selected: new Set(),
+    showSpells: true, showEquipment: true, active: null, showGolden: false,
+    tierKinds: {},
+  };
+
+  const $ = (selector) => document.querySelector(selector);
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+  ));
+  const artUrl = (path) => "art/" + String(path).split("/").map(encodeURIComponent).join("/");
+  const displayValue = (value) => value === null || value === undefined || value === "" ? "—" : String(value);
+  const kindLabel = (kind) => KIND_LABELS[kind] || kind;
+
+  function toast(message) {
+    const el = $("#toast");
+    el.textContent = message;
+    el.classList.add("is-visible");
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => el.classList.remove("is-visible"), 2200);
+  }
+
+  function poolCardMatches(card) {
+    if (card.kind === "follower") return card.race === "中立" || state.selected.has(card.race);
+    if (card.kind === "equipment") return state.showEquipment;
+    if (card.kind === "spell") {
+      if (!state.showSpells) return false;
+      if (!card.race) return true;
+      if (state.selected.has(card.race)) return true;
+      return (card.race_filters || []).some((race) => state.selected.has(race));
+    }
+    return false;
+  }
+
+  function poolRace(card) {
+    if (card.kind === "equipment") return "装备";
+    if (card.race) return card.race;
+    return "中立";
+  }
+
+  function renderRacePicker() {
+    $("#racePicker").innerHTML = RACES.map((race) => {
+      const active = state.selected.has(race);
+      const disabled = !active && state.selected.size >= 4;
+      return '<button class="chip race-chip ' + (active ? "is-active" : "") + '" data-race="' + race + '"' +
+        (disabled ? " disabled" : "") + ">" + race + "</button>";
+    }).join("");
+    $("#raceHint").textContent = "已选 " + state.selected.size + " / 4";
+    $("#statRaces").textContent = state.selected.size;
+  }
+
+  function renderPool() {
+    const pool = state.normals.filter(poolCardMatches);
+    $("#statPool").textContent = pool.length;
+    const tiers = new Map();
+    pool.forEach((card) => {
+      const tier = Number(card.tier);
+      if (!tier || tier < 1 || tier > 6) return;
+      if (!tiers.has(tier)) tiers.set(tier, []);
+      tiers.get(tier).push(card);
+    });
+    const summary = RACES.filter((race) => state.selected.has(race)).map((race) => {
+      const counts = [1, 2, 3, 4, 5, 6].map((tier) => (
+        pool.filter((card) => card.race === race && Number(card.tier) === tier).length
+      ));
+      return '<div><b>' + race + '</b><span>' + counts.map((count, index) => (index + 1) + "星 " + count).join(" · ") + '</span></div>';
+    }).join("");
+    $("#poolSummary").innerHTML = summary || '<div class="guide-empty">先选择种族</div>';
+
+    if (!pool.length) {
+      $("#poolTiers").innerHTML = '<div class="guide-empty">当前没有可选卡牌，先选择种族或打开咒术/装备。</div>';
+      return;
+    }
+    const order = [...RACE_ORDER];
+    const blocks = [...tiers.keys()].sort((left, right) => left - right).map((tier) => {
+      const cards = tiers.get(tier);
+      const byKind = { follower: [], equipment: [], spell: [] };
+      cards.forEach((card) => byKind[card.kind].push(card));
+      let kind = state.tierKinds[tier];
+      if (!byKind[kind] || !byKind[kind].length) {
+        kind = (TIER_KINDS.find((item) => byKind[item.kind].length) || TIER_KINDS[0]).kind;
+      }
+      state.tierKinds[tier] = kind;
+      const tabs = TIER_KINDS.map((item) => (
+        '<button class="tier-tab' + (item.kind === kind ? " is-active" : "") + '" data-tier-kind="' + item.kind + '"' +
+        (byKind[item.kind].length ? "" : " disabled") + '>' + item.label +
+        '<span>' + byKind[item.kind].length + '</span></button>'
+      )).join("");
+      const byRace = new Map();
+      byKind[kind].forEach((card) => {
+        const race = poolRace(card);
+        if (!byRace.has(race)) byRace.set(race, []);
+        byRace.get(race).push(card);
+      });
+      const raceBlocks = [...byRace.keys()].sort((left, right) => order.indexOf(left) - order.indexOf(right)).map((race) => {
+        const list = byRace.get(race).sort((left, right) => (left.name || "").localeCompare(right.name || ""));
+        return '<div class="pool-race"><div class="pool-race__head">' + escapeHtml(race) + ' · ' + list.length + ' 张</div>' +
+          '<div class="pool-cards">' + list.map(poolCardHtml).join("") + '</div></div>';
+      }).join("");
+      return '<div class="pool-tier" data-tier="' + tier + '"><div class="pool-tier__head">' + tier + ' 星 <span>共 ' + cards.length + ' 张</span></div>' +
+        '<div class="tier-tabs">' + tabs + '</div><div class="pool-races">' + raceBlocks + '</div></div>';
+    }).join("");
+    $("#poolTiers").innerHTML = blocks;
+  }
+
+  function poolCardHtml(card) {
+    const art = card.art && card.art_exists
+      ? '<img loading="lazy" decoding="async" src="' + artUrl(card.art) + '" alt="' + escapeHtml(card.name) + '">'
+      : '<div class="tile__placeholder" style="width:100%">缺图</div>';
+    const stats = card.kind === "equipment"
+      ? (card.tier ? card.tier + "★" : "")
+      : [card.race || (card.kind === "spell" ? "中立" : ""), card.atk !== null && card.atk !== undefined ? card.atk + "/" + displayValue(card.hp) : ""].filter(Boolean).join(" · ");
+    return '<button class="pool-card" data-id="' + escapeHtml(card.id) + '">' + art +
+      '<div class="pool-card__body"><div class="pool-card__name">' + escapeHtml(card.name) + '</div>' +
+      '<div class="pool-card__meta">' + escapeHtml(stats) + '</div></div></button>';
+  }
+
+  function average(list) {
+    return list.length ? list.reduce((sum, value) => sum + value, 0) / list.length : 0;
+  }
+
+  const DRAIN_CACHE = new Map();
+
+  function evaluateDrainSystems(races) {
+    const cacheKey = [...races].sort().join(",") + "|" + state.showSpells;
+    if (DRAIN_CACHE.has(cacheKey)) return DRAIN_CACHE.get(cacheKey);
+    const pool = state.normals.filter((card) => card.kind === "follower" &&
+      (card.race === "中立" || races.includes(card.race)));
+    const spells = state.showSpells
+      ? state.normals.filter((card) => card.kind === "spell" && (!card.race || races.includes(card.race)))
+      : [];
+    const text = (card) => card.description || "";
+    const systems = DRAIN_SYSTEMS.map((system) => {
+      const multCards = system.mult ? pool.filter((card) => system.mult.test(text(card))) : [];
+      const engineRank = (card) => {
+        const desc = text(card);
+        const priority = system.pay.test(desc) ? 0
+          : (/每购买|每刷新|每回合|免费刷新/.test(desc) ? 1 : 2);
+        return priority * 100 - (Number(card.tier) || 0);
+      };
+      const engineCards = pool.filter((card) => system.engines.some((re) => re.test(text(card))))
+        .sort((left, right) => engineRank(left) - engineRank(right));
+      if (!multCards.length && !engineCards.length) return null;
+      const fuelCards = pool.filter((card) => system.fuel.test(text(card)) && !multCards.includes(card));
+      const payCards = pool.filter((card) => system.pay.test(text(card)));
+      const repeat = engineCards.some((card) => /每购买|每刷新|每回合|免费刷新/.test(text(card)));
+      const raceFuels = fuelCards.filter((card) => races.includes(card.race)).length;
+      const base = 10 + Math.min(engineCards.length, 6) * 5 + Math.min(payCards.length, 8) * 4 +
+        Math.min(fuelCards.length, 30) * 0.6 + raceFuels * 0.2 + (repeat ? 6 : 0);
+      const hasMult = multCards.length > 0;
+      let strength = hasMult ? base + 8 : base * 0.45;
+      // 只有倍率没有金币/经验产出，只算属性放大，不算资源倒转。
+      if (hasMult && !payCards.length) strength *= 0.7;
+      return {
+        ...system, hasMult, repeat, strength,
+        multCards, engineCards, payCards, fuelCards,
+        raceFuels, fuelCount: fuelCards.length,
+      };
+    }).filter(Boolean);
+    // 咒术倒转没有随从倍率卡：诡异的猫用免费刷新刷出咒术，恶潮漩涡按刷新次数补牌。
+    const spellEngines = pool.filter((card) =>
+      /免费刷新.*刷出\s*[0-9I]+\s*张咒术|每刷新\s*[0-9I]+\s*次.*咒术/.test(text(card)));
+    if (spellEngines.length) {
+      const spellPays = spells.filter((card) => /获得\s*[0-9I]+\s*点?(金币|经验)|金币收入/.test(text(card)));
+      systems.push({
+        key: "spell", name: "咒术倒转", mech: "咒术", hasMult: true, repeat: true,
+        strength: 4 + spellEngines.length * 8 + Math.min(spellPays.length, 8) * 4 +
+          Math.min(spells.length, 40) * 0.2,
+        multCards: [], engineCards: spellEngines, payCards: spellPays, fuelCards: spells,
+        raceFuels: spells.length, fuelCount: spells.length,
+        note: "咒术默认 3 金币，只有奇遇选到法杖商人才降到 1 金币；诡异的猫用免费刷新刷出咒术，恶潮漩涡按刷新次数补牌，头脑风暴/理性投资把咒术转成经验和永久收入。没有法杖商人时不要把它当稳定倒转。",
+      });
+    }
+    systems.sort((left, right) => right.strength - left.strength);
+    DRAIN_CACHE.set(cacheKey, systems);
+    return systems;
+  }
+
+  function drainGrade(system) {
+    if (!system) return "";
+    if (!system.hasMult) return "C";
+    if (system.strength >= 85) return "S";
+    if (system.strength >= 65) return "A";
+    if (system.strength >= 50) return "B";
+    return "C";
+  }
+
+  function drainChain(system) {
+    const names = (list, limit) => list.slice(0, limit).map((card) => card.name).join(" / ") || "—";
+    if (system.mech === "咒术") {
+      return names(system.engineCards, 2) + " → " + system.fuelCount + " 张咒术 → " + names(system.payCards, 3);
+    }
+    return names(system.multCards, 2) + " → " + names(system.engineCards, 2) + " → " +
+      system.raceFuels + " 张本族" + system.mech + "牌 → " + names(system.payCards, 3);
+  }
+
+  function cardPower(card) {
+    const body = (Number(card.atk) || 0) + (Number(card.hp) || 0);
+    const keywords = (card.keywords || []).length;
+    return body + keywords * 2.5 + (TIER_WEIGHT[Number(card.tier)] || 1) * 2;
+  }
+
+  function mechCounts(cards) {
+    const counts = new Map();
+    cards.forEach((card) => {
+      (card.keywords || []).forEach((word) => {
+        if (MECH_IGNORE.has(word)) return;
+        counts.set(word, (counts.get(word) || 0) + 1);
+      });
+    });
+    return counts;
+  }
+
+  function sortedMechs(counts, limit) {
+    return [...counts.entries()].sort((left, right) => right[1] - left[1]).slice(0, limit);
+  }
+
+  function raceProfile(race) {
+    const followers = state.normals.filter((card) => card.kind === "follower" && card.race === race);
+    const spells = state.normals.filter((card) => card.kind === "spell" && card.race === race);
+    const tiers = new Set(followers.map((card) => Number(card.tier)).filter((tier) => tier >= 1 && tier <= 6));
+    const high = followers.filter((card) => Number(card.tier) >= 5).map(cardPower).sort((left, right) => right - left);
+    const ceiling = average(high.slice(0, 4));
+    const quality = average(followers.map(cardPower));
+    const counts = mechCounts(followers);
+    const mechs = sortedMechs(counts, 5);
+    const main = mechs[0] || ["", 0];
+    const second = mechs[1] || ["", 0];
+    const focus = followers.length ? main[1] / followers.length : 0;
+    const keywordRatio = followers.length ? followers.filter((card) => (card.keywords || []).length).length / followers.length : 0;
+    const baseScore = 16 + quality * 0.75 + ceiling * 0.85 + tiers.size * 1.2 +
+      focus * 14 + keywordRatio * 10 + Math.min(second[1], 8) * 0.5 + Math.min(spells.length, 6) * 1.2;
+    const drain = evaluateDrainSystems([race])[0] || null;
+    const drainBonus = drain ? Math.min(drain.strength * 0.16, 18) : 0;
+    return {
+      race, followers, spells, tiers: tiers.size, ceiling, quality, counts, mechs,
+      main, second, focus, keywordRatio, drain, baseScore, score: baseScore + drainBonus,
+    };
+  }
+
+  function sharedMechanics(left, right) {
+    const shared = [];
+    left.counts.forEach((countA, word) => {
+      const countB = right.counts.get(word);
+      if (!countB) return;
+      const score = Math.min(countA, countB) * 1.25 +
+        (countA / (left.followers.length || 1) + countB / (right.followers.length || 1)) * 4;
+      shared.push({ word, a: countA, b: countB, score });
+    });
+    return shared.sort((left, right) => right.score - left.score);
+  }
+
+  function topCardName(profile, predicate) {
+    const list = profile.followers.filter(predicate).sort((left, right) => cardPower(right) - cardPower(left));
+    return list.length ? list[0].name : "";
+  }
+
+  function singleNote(profile) {
+    const early = topCardName(profile, (card) => Number(card.tier) <= 2);
+    const late = topCardName(profile, (card) => Number(card.tier) >= 5);
+    const bits = [
+      "主机制「" + (profile.main[0] || "白板身材") + "」" + profile.main[1] + " 张" +
+        (profile.second[0] ? "，辅以「" + profile.second[0] + "」" + profile.second[1] + " 张" : ""),
+      profile.tiers + " 个星级有随从，5-6 星平均攻+血 " + profile.ceiling.toFixed(1),
+    ];
+    if (early) bits.push("前期靠 " + early + " 过渡");
+    if (late) bits.push("后期由 " + late + " 收尾");
+    return bits.join("；") + "。";
+  }
+
+  function crossNote(left, right, shared) {
+    const parts = shared.slice(0, 2).map((item) => "「" + item.word + "」" + item.a + "/" + item.b + " 张");
+    const effect = MECH_NOTE[shared[0].word] || "两族机制互补，成型后上限更高";
+    return "共享 " + parts.join("、") + "；" + left.race + " 主打「" + (left.main[0] || "身材") +
+      "」，" + right.race + " 主打「" + (right.main[0] || "身材") + "」，" + effect + "。";
+  }
+
+  function gradeFor(score) {
+    for (const [grade, line] of GRADE_LINES) {
+      if (score >= line) return grade;
+    }
+    return "C";
+  }
+
+  function buildCandidates() {
+    const profiles = new Map([...state.selected].map((race) => [race, raceProfile(race)]));
+    const builds = [];
+    profiles.forEach((profile) => {
+      builds.push({
+        name: profile.race + " · " + (profile.main[0] || "身材"),
+        races: [profile.race],
+        kind: "single",
+        score: profile.score,
+        drain: profile.drain,
+        metrics: { quality: profile.quality, ceiling: profile.ceiling, synergy: 0 },
+        mechanisms: profile.mechs.slice(0, 4).map(([word, count]) => ({ word, count })),
+        note: singleNote(profile),
+      });
+    });
+    const races = [...state.selected];
+    for (let i = 0; i < races.length; i += 1) {
+      for (let j = i + 1; j < races.length; j += 1) {
+        const left = profiles.get(races[i]);
+        const right = profiles.get(races[j]);
+        const shared = sharedMechanics(left, right);
+        const synergy = shared.slice(0, 3).reduce((sum, item) => sum + item.score, 0);
+        if (synergy < 8) continue;
+        const mechWords = [];
+        const pushMech = (word) => {
+          if (word && !mechWords.includes(word)) mechWords.push(word);
+        };
+        shared.slice(0, 3).forEach((item) => pushMech(item.word));
+        pushMech(left.main[0]);
+        pushMech(right.main[0]);
+        const drain = evaluateDrainSystems([left.race, right.race])[0] || null;
+        const drainBonus = drain ? Math.min(drain.strength * 0.16, 18) : 0;
+        builds.push({
+          name: left.race + " + " + right.race + " · " + shared[0].word,
+          races: [left.race, right.race],
+          kind: "cross",
+          drain,
+          score: (left.baseScore + right.baseScore) / 2 + synergy * 0.55 - 6 + drainBonus,
+          metrics: {
+            quality: (left.quality + right.quality) / 2,
+            ceiling: (left.ceiling + right.ceiling) / 2,
+            synergy,
+          },
+          mechanisms: mechWords.slice(0, 4).map((word) => {
+            const item = shared.find((entry) => entry.word === word);
+            if (item) return { word, count: item.a, other: item.b };
+            const side = left.counts.has(word) ? left : right;
+            return { word, count: side.counts.get(word) || 0 };
+          }),
+          note: crossNote(left, right, shared),
+        });
+      }
+    }
+    return builds.sort((left, right) => right.score - left.score);
+  }
+
+  function coreCards(build) {
+    const races = new Set(build.races);
+    const followers = state.normals.filter((card) => card.kind === "follower" && races.has(card.race));
+    const pool = state.normals.filter((card) => card.kind === "follower" &&
+      (races.has(card.race) || card.race === "中立"));
+    const picked = [];
+    // 倒转核心（倍率 → 引擎 → 产出）优先占位，中立卡也可以进推荐。
+    if (build.drain) {
+      [...build.drain.multCards, ...build.drain.engineCards, ...build.drain.payCards]
+        .filter((card) => pool.includes(card) && !picked.includes(card))
+        .slice(0, 3)
+        .forEach((card) => picked.push(card));
+    }
+    for (let tier = 1; tier <= 6; tier += 1) {
+      const best = followers
+        .filter((card) => Number(card.tier) === tier && !picked.includes(card))
+        .sort((left, right) => cardPower(right) - cardPower(left))[0];
+      if (best) picked.push(best);
+    }
+    const mechWords = new Set(build.mechanisms.map((item) => item.word));
+    const hitCount = (card) => (card.keywords || []).filter((word) => mechWords.has(word)).length;
+    const rest = followers.filter((card) => !picked.includes(card))
+      .sort((left, right) => (hitCount(right) - hitCount(left)) || (cardPower(right) - cardPower(left)));
+    while (picked.length < 8 && rest.length) picked.push(rest.shift());
+    const spells = state.showSpells
+      ? state.normals
+        .filter((card) => card.kind === "spell" && races.has(card.race))
+        .sort((left, right) => Number(right.tier) - Number(left.tier))
+      : [];
+    const spellPick = build.kind === "single"
+      ? spells.slice(0, 2)
+      : build.races.map((race) => spells.find((card) => card.race === race)).filter(Boolean);
+    return picked.slice(0, 8).concat(spellPick);
+  }
+
+  function heroAvatar(hero, size) {
+    if (!(hero.art && hero.art_exists)) return "";
+    return '<img class="hero-avatar" style="width:' + size + 'px;height:' + size + 'px" src="' +
+      artUrl(hero.art) + '" alt="">';
+  }
+
+  function heroText(hero) {
+    return [hero.skill_name, hero.skill_description, hero.skill_type].filter(Boolean).join(" ");
+  }
+
+  function buildMechWords(build) {
+    return new Set(build.mechanisms.map((item) => item.word));
+  }
+
+  function heroScore(hero, build) {
+    const text = heroText(hero);
+    let score = 55;
+    build.races.forEach((race) => {
+      if (text.includes(race)) score += 10;
+    });
+    buildMechWords(build).forEach((word) => {
+      if (text.includes(word)) score += 6;
+    });
+    if (hero.extra_gold) score += Math.min(Number(hero.extra_gold), 10) * 1.5;
+    if (hero.tag === "关卡限时") score -= 8;
+    return score;
+  }
+
+  function heroWhy(hero, build) {
+    const reasons = [];
+    const text = heroText(hero);
+    const races = build.races.filter((race) => text.includes(race));
+    if (races.length) reasons.push("技能契合" + races.join("/"));
+    const hits = [...buildMechWords(build)].filter((word) => text.includes(word));
+    if (hits.length) reasons.push("覆盖" + hits.slice(0, 2).join("/") + "机制");
+    if (hero.extra_gold !== null && hero.extra_gold !== undefined) {
+      reasons.push("额外金币 " + (hero.extra_gold_raw || hero.extra_gold));
+    }
+    if (/金币|刷新|经验|商店/.test(text)) reasons.push("经济型");
+    return reasons.join(" · ") || "技能泛用";
+  }
+
+  function pickHeroes(build, limit) {
+    return state.normals
+      .filter((card) => card.kind === "hero")
+      .map((hero) => ({ hero, score: heroScore(hero, build) }))
+      .sort((left, right) => right.score - left.score)
+      .slice(0, limit);
+  }
+
+  function renderBuilds() {
+    if (state.selected.size < 4) {
+      $("#buildArea").innerHTML = '<div class="guide-empty">选满 4 个种族后给出完整打法推荐。</div>';
+      $("#heroArea").innerHTML = "";
+      $("#statBuilds").textContent = 0;
+      return;
+    }
+    const builds = buildCandidates().slice(0, 6);
+    $("#statBuilds").textContent = builds.length;
+    $("#buildArea").innerHTML = '<div class="build-grid">' + builds.map((build) => {
+      const grade = gradeFor(build.score);
+      const core = coreCards(build).map((card) => {
+        const golden = state.goldens.get(card.id);
+        const hasGolden = golden && golden.art && golden.art_exists;
+        const artPath = hasGolden ? golden.art : (card.art && card.art_exists ? card.art : "");
+        const art = artPath
+          ? '<img decoding="async" src="' + artUrl(artPath) + '" alt="' + escapeHtml(card.name) + '">'
+          : '<div class="core-card__placeholder">缺图</div>';
+        const meta = [
+          Number(card.tier) > 0 ? card.tier + "★" : "",
+          card.kind === "spell" ? "咒术" : "",
+          card.atk !== null && card.atk !== undefined ? card.atk + "/" + displayValue(card.hp) : "",
+        ].filter(Boolean).join(" ");
+        return '<figure class="core-card">' +
+          (hasGolden ? '<span class="core-card__gold">金</span>' : "") + art +
+          '<figcaption class="core-card__body">' +
+            '<span class="core-card__name">' + escapeHtml(card.name) + '</span>' +
+            '<span class="core-card__meta">' + escapeHtml(meta) + '</span>' +
+          '</figcaption></figure>';
+      }).join("");
+      const mechs = build.mechanisms.map((item) => (
+        '<span class="mech">' + escapeHtml(item.word) +
+        '<b>' + (item.other !== undefined ? item.count + "/" + item.other : item.count) + '</b></span>'
+      )).join("");
+      const meta = [
+        build.races.join(" + "),
+        "卡池质量 " + build.metrics.quality.toFixed(1),
+        "终场上限 " + build.metrics.ceiling.toFixed(1),
+        build.kind === "cross" ? "协同 " + build.metrics.synergy.toFixed(1) : "",
+        build.drain ? "倒转 " + build.drain.strength.toFixed(0) : "",
+      ].filter(Boolean).join(" · ");
+      const drain = build.drain;
+      const drainGradeText = drainGrade(drain);
+      const drainBlock = drain && (drain.hasMult || drain.repeat)
+        ? '<div class="drain-line"><div class="drain-line__top">' +
+            '<span class="drain-grade is-' + drainGradeText.toLowerCase() + '">资源倒转 ' + drainGradeText + '</span>' +
+            '<b>' + escapeHtml(drain.name) + '</b></div>' +
+            '<div class="drain-chain">' + escapeHtml(drainChain(drain)) + '</div>' +
+            '<p class="drain-note">' + escapeHtml(drain.note) + '</p></div>'
+        : "";
+      const heroes = pickHeroes(build, 2);
+      return '<article class="build-card">' +
+        '<div class="build-card__head"><div><h3>' + escapeHtml(build.name) + '</h3>' +
+        '<div class="build-card__meta">' + escapeHtml(meta) + '</div></div>' +
+        '<span class="strength">' + grade + ' <b>' + build.score.toFixed(1) + '</b></span></div>' +
+        '<div class="mech-tags">' + mechs + '</div>' +
+        '<div class="build-card__note">' + escapeHtml(build.note) + '</div>' +
+        drainBlock +
+        '<div class="core-list">' + core + '</div>' +
+        '<div class="build-card__heroes"><span class="hero-label">推荐英雄：</span>' +
+          heroes.map(({ hero }) => '<span class="hero-pick">' + heroAvatar(hero, 30) +
+            '<span>' + escapeHtml(hero.name) + '</span></span>').join("") + '</div>' +
+        '</article>';
+    }).join("") + '</div>';
+
+    const overall = {
+      races: [...state.selected],
+      mechanisms: [...new Set([...state.selected].flatMap((race) => (
+        raceProfile(race).mechs.slice(0, 4).map(([word]) => word)
+      )))].map((word) => ({ word })),
+    };
+    const heroes = pickHeroes(overall, 6);
+    $("#heroArea").innerHTML = '<h3 style="font-family:var(--display);font-weight:500;margin:0 0 12px">优先英雄</h3>' +
+      '<div class="hero-grid">' + heroes.map(({ hero, score }) => (
+        '<div class="hero-card"><div class="hero-card__top"><h3>' + heroAvatar(hero, 44) + escapeHtml(hero.name) + '</h3>' +
+        '<span class="tier-badge">契合 ' + Math.round(score) + '</span></div>' +
+        '<div class="hero-card__skill">' + escapeHtml(hero.skill_name || "—") +
+        (hero.skill_type ? ' · ' + escapeHtml(hero.skill_type) : "") +
+        (hero.skill_cost !== null && hero.skill_cost !== undefined ? ' · ' + escapeHtml(hero.skill_cost) + ' 金币' : "") +
+        '<br>' + escapeHtml(hero.skill_description || "—") + '</div>' +
+        '<div class="hero-card__why">' + escapeHtml(heroWhy(hero, overall)) + '</div></div>'
+      )).join("") + '</div>';
+  }
+
+  function renderAll() {
+    renderRacePicker();
+    renderPool();
+    renderBuilds();
+  }
+
+  function randomPick() {
+    const pool = [...RACES];
+    state.selected = new Set();
+    while (state.selected.size < 4 && pool.length) {
+      const index = Math.floor(Math.random() * pool.length);
+      state.selected.add(pool.splice(index, 1)[0]);
+    }
+    renderAll();
+  }
+
+  function openCard(card) {
+    state.active = card;
+    state.showGolden = false;
+    const drawer = $("#drawer");
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    renderDrawerBody(card);
+  }
+
+  function renderDrawerBody(card) {
+    $("#drawerTitle").textContent = card.name || "未命名";
+    $("#drawerKicker").textContent = kindLabel(card.kind) + (card.variant === "golden" ? " · 金色" : "");
+    const art = card.art && card.art_exists
+      ? '<img src="' + artUrl(card.art) + '" alt="' + escapeHtml(card.name) + '">'
+      : '<div class="tile__placeholder" style="width:min(300px,68%)">缺图</div>';
+    const stats = [
+      card.kind === "contract" ? '<div class="codex-stat"><span>' + escapeHtml(card.side === "cost" ? "代价" : "回报") + '</span><label>类型</label></div>' : "",
+      card.kind === "treasure" ? '<div class="codex-stat"><span>' + escapeHtml(card.pool) + '</span><label>品质</label></div>' : "",
+      card.kind === "treasure" ? '<div class="codex-stat"><span>' + escapeHtml(card.cost) + '</span><label>花费</label></div>' : "",
+      card.kind === "adventure" ? '<div class="codex-stat"><span>' + escapeHtml(card.card_type) + '</span><label>卡牌类型</label></div>' : "",
+      card.kind === "story" ? '<div class="codex-stat"><span>' + escapeHtml(card.rounds) + '</span><label>出现回合</label></div>' : "",
+      card.kind === "hero" ? '<div class="codex-stat"><span>' + escapeHtml(card.extra_gold_raw || card.extra_gold) + '</span><label>额外金币</label></div>' : "",
+      card.race ? '<div class="codex-stat"><span>' + escapeHtml(card.race) + '</span><label>种族</label></div>' : "",
+      card.tier ? '<div class="codex-stat"><span>' + escapeHtml(card.tier) + ' 星</span><label>星级</label></div>' : "",
+      card.atk !== null && card.atk !== undefined ? '<div class="codex-stat"><span>' + escapeHtml(card.atk + " / " + displayValue(card.hp)) + '</span><label>攻击 / 生命</label></div>' : "",
+    ].join("");
+    const keywords = (card.keywords || []).length
+      ? '<div class="codex-section"><h3>特殊词条</h3><div class="codex-tags">' +
+        card.keywords.map((word) => '<span class="codex-tag">' + escapeHtml(word) + '</span>').join("") + '</div></div>'
+      : "";
+    const skill = card.kind === "hero"
+      ? '<div class="codex-section"><h3>英雄技能</h3><div class="codex-skill"><b>' + escapeHtml(card.skill_name || "—") + '</b>' +
+        (card.skill_type ? ' · ' + escapeHtml(card.skill_type) : "") +
+        (card.skill_cost !== null && card.skill_cost !== undefined ? ' · 消耗 ' + escapeHtml(card.skill_cost) + ' 金币' : "") +
+        '<br>' + escapeHtml(card.skill_description || "—") + '</div></div>'
+      : "";
+    $("#drawerBody").innerHTML = '<div class="drawer__art">' + art + '</div>' +
+      '<div class="codex-stats">' + stats + '</div>' +
+      '<div class="codex-section"><h3>卡牌描述</h3><div class="codex-desc">' + escapeHtml(displayValue(card.description)) + '</div></div>' +
+      keywords + skill;
+  }
+
+  function closeDrawer() {
+    $("#drawer").classList.remove("is-open");
+    $("#drawer").setAttribute("aria-hidden", "true");
+    state.active = null;
+  }
+
+  function bindEvents() {
+    $("#racePicker").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-race]");
+      if (!button) return;
+      const race = button.dataset.race;
+      if (state.selected.has(race)) {
+        state.selected.delete(race);
+      } else {
+        if (state.selected.size >= 4) {
+          toast("最多选择 4 个种族，请先取消一个");
+          return;
+        }
+        state.selected.add(race);
+      }
+      renderAll();
+    });
+    $("#randomRaces").addEventListener("click", randomPick);
+    $("#clearRaces").addEventListener("click", () => {
+      state.selected.clear();
+      renderAll();
+    });
+    $("#showSpells").addEventListener("change", (event) => {
+      state.showSpells = event.target.checked;
+      renderPool();
+      renderBuilds();
+    });
+    $("#showEquipment").addEventListener("change", (event) => {
+      state.showEquipment = event.target.checked;
+      renderPool();
+    });
+    $("#poolTiers").addEventListener("click", (event) => {
+      const tierTab = event.target.closest("[data-tier-kind]");
+      if (tierTab) {
+        const tier = Number(tierTab.closest("[data-tier]").dataset.tier);
+        state.tierKinds[tier] = tierTab.dataset.tierKind;
+        renderPool();
+        return;
+      }
+      const tile = event.target.closest("[data-id]");
+      if (!tile) return;
+      const card = state.normals.find((item) => item.id === tile.dataset.id);
+      if (card) openCard(card);
+    });
+    $("#drawer").addEventListener("click", (event) => {
+      if (event.target.closest("[data-close]")) closeDrawer();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeDrawer();
+    });
+  }
+
+  async function boot() {
+    try {
+      const response = await fetch("cards.json");
+      if (!response.ok) throw new Error("接口返回异常");
+      const payload = await response.json();
+      state.cards = payload.cards || [];
+      state.normals = state.cards.filter((card) => card.variant !== "golden");
+      state.goldens = new Map();
+      state.cards.forEach((card) => {
+        if (card.variant === "golden" && card.parent_id) state.goldens.set(card.parent_id, card);
+      });
+      randomPick();
+      bindEvents();
+      $("#loading").classList.add("is-done");
+    } catch (error) {
+      const screen = document.createElement("div");
+      screen.className = "error-screen";
+      screen.innerHTML = "<div><h2>攻略页打不开</h2><p>" + escapeHtml(error.message) + "</p></div>";
+      document.body.appendChild(screen);
+    }
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>月圆之夜图鉴 · Moonlight Night Codex</title>
+<style>
+
+  :root {
+    --ink: #0d0b09;
+    --ink-2: #14100c;
+    --panel: #19130e;
+    --panel-2: #211912;
+    --line: #34291c;
+    --line-soft: rgba(217, 164, 65, .14);
+    --paper: #ece2cc;
+    --paper-dim: #c8b99e;
+    --muted: #93846c;
+    --gold: #d9a441;
+    --gold-2: #f2cd78;
+    --blood: #c04a3d;
+    --jade: #7aa98d;
+    --display: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    --body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --mono: "SFMono-Regular", "Menlo", "Consolas", monospace;
+    --shadow: 0 24px 60px -38px #000;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--paper);
+    font-family: var(--body);
+    background:
+      radial-gradient(1200px 520px at 12% -12%, rgba(114, 78, 24, .38), transparent 62%),
+      radial-gradient(900px 520px at 96% 104%, rgba(104, 34, 28, .28), transparent 55%),
+      linear-gradient(180deg, #0f0c09 0%, #0b0907 55%, #0d0a08 100%);
+    background-attachment: fixed;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(rgba(236, 226, 204, .07) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.55), transparent 68%);
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  ::selection { background: rgba(217, 164, 65, .35); color: #fff; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #3a2d1d; border-radius: 20px; border: 2px solid #0d0b09; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  .masthead {
+    position: relative;
+    z-index: 2;
+    padding: 30px clamp(18px, 4vw, 56px) 0;
+  }
+  .masthead__top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .seal {
+    width: 52px; height: 52px;
+    display: grid; place-items: center;
+    color: #f6e8c8;
+    font-family: var(--display);
+    font-size: 28px;
+    background: linear-gradient(145deg, #8e2f28, #5f1d19);
+    border: 1px solid #d9a44188;
+    box-shadow: inset 0 0 0 3px #2a0f0c, 0 10px 24px -14px #000;
+    transform: rotate(-3deg);
+  }
+  .eyebrow {
+    margin: 0 0 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .34em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(28px, 3.4vw, 46px);
+    letter-spacing: .04em;
+    color: var(--paper);
+    text-shadow: 0 2px 24px rgba(217, 164, 65, .12);
+  }
+  .ledger { display: flex; gap: clamp(18px, 3vw, 40px); }
+  .ledger div { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .ledger span {
+    font-family: var(--mono);
+    font-size: clamp(22px, 2.4vw, 32px);
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .ledger label {
+    font-size: 11px;
+    letter-spacing: .22em;
+    color: var(--muted);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 30px;
+    margin-top: 18px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .tab {
+    position: relative;
+    padding: 10px 2px 13px;
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font-size: 15px;
+    letter-spacing: .08em;
+    transition: color .2s;
+  }
+  .tab em {
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 10px;
+    color: inherit;
+    opacity: .7;
+    margin-left: 6px;
+  }
+  .tab::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .tab:hover { color: var(--paper-dim); }
+  .tab.is-active { color: var(--gold-2); }
+  .tab.is-active::after { opacity: 1; }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+    padding: 16px 0 20px;
+  }
+  .search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 280px;
+    padding: 0 14px;
+    height: 40px;
+    background: rgba(25, 19, 14, .8);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+  .search span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .22em;
+    color: var(--gold);
+  }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    outline: none;
+    color: var(--paper);
+    font-size: 14px;
+  }
+  .search input::placeholder { color: #6f6352; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    padding: 7px 12px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .06em;
+    transition: all .18s;
+  }
+  .chip:hover { border-color: #59452b; color: var(--paper-dim); }
+  .chip.is-active {
+    color: #1a1209;
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+  .select { display: flex; align-items: center; gap: 8px; }
+  .select span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--muted);
+  }
+  .select select {
+    height: 40px;
+    padding: 0 30px 0 12px;
+    background: rgba(25, 19, 14, .8);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--paper-dim);
+    outline: none;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #8d7a5f 50%), linear-gradient(135deg, #8d7a5f 50%, transparent 50%);
+    background-position: calc(100% - 16px) 17px, calc(100% - 11px) 17px;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    padding: 8px clamp(18px, 4vw, 56px) 90px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: clamp(14px, 1.6vw, 22px);
+  }
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(33, 25, 18, .9), rgba(20, 15, 11, .95));
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    animation: rise .55s cubic-bezier(.2, .7, .2, 1) both;
+    animation-delay: calc(min(var(--i, 0), 22) * 16ms);
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  }
+  .tile:hover {
+    transform: translateY(-4px);
+    border-color: rgba(217, 164, 65, .48);
+    box-shadow: 0 30px 48px -30px #000, 0 0 0 1px rgba(217, 164, 65, .12);
+  }
+  .tile__art {
+    display: block;
+    width: 100%;
+    aspect-ratio: 271 / 408;
+    object-fit: cover;
+    background: #080605;
+    filter: saturate(.94) contrast(1.03);
+    transition: transform .35s ease, filter .35s ease;
+  }
+  .tile:hover .tile__art { transform: scale(1.025); filter: saturate(1.04) contrast(1.05); }
+  .tile__placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 271 / 408;
+    color: #4b3d2b;
+    font-family: var(--display);
+    font-size: 30px;
+    background: repeating-linear-gradient(135deg, #120e0a 0 10px, #15100c 10px 20px);
+  }
+  .tile__body { padding: 10px 12px 12px; }
+  .tile__name {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: var(--display);
+    font-size: 17px;
+    letter-spacing: .03em;
+    color: var(--paper);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .tile__name span:first-child { overflow: hidden; text-overflow: ellipsis; }
+  .tile__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .kind {
+    padding: 2px 5px;
+    border: 1px solid #4a3b28;
+    color: #b9a583;
+    letter-spacing: .08em;
+  }
+  .kind.golden { border-color: #8a6a2c; color: var(--gold-2); }
+  .stars { color: var(--gold); letter-spacing: .06em; font-size: 11px; }
+  .tile__missing {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    padding: 3px 7px;
+    background: rgba(120, 34, 28, .92);
+    border: 1px solid rgba(236, 226, 204, .18);
+    color: #ffe6d8;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .12em;
+    backdrop-filter: blur(4px);
+  }
+  .tile__edited {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    width: 7px; height: 7px;
+    background: var(--jade);
+    box-shadow: 0 0 10px rgba(122, 169, 141, .9);
+    border-radius: 50%;
+  }
+  .tile__missing-fields {
+    margin-top: 8px;
+    font-size: 10px;
+    color: #c98d80;
+    letter-spacing: .03em;
+  }
+
+  .empty {
+    padding: 90px 20px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty strong {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--display);
+    font-size: 26px;
+    color: var(--paper-dim);
+    font-weight: 500;
+  }
+  .sentinel { height: 1px; }
+
+  .loading {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    background: #0b0907;
+    transition: opacity .4s, visibility .4s;
+  }
+  .loading.is-done { opacity: 0; visibility: hidden; }
+  .loading__inner { text-align: center; }
+  .loading__inner p {
+    margin: 16px 0 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .3em;
+    color: var(--gold);
+  }
+  .spinner {
+    width: 34px; height: 34px;
+    margin: 0 auto;
+    border: 1px solid #3a2d1d;
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin .9s linear infinite;
+  }
+
+  .drawer { position: fixed; inset: 0; z-index: 30; pointer-events: none; }
+  .drawer.is-open { pointer-events: auto; }
+  .drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 5, 4, .62);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .drawer.is-open .drawer__backdrop { opacity: 1; }
+  .drawer__panel {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: min(600px, 100vw);
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(700px 280px at 100% 0%, rgba(120, 82, 26, .16), transparent 60%),
+      linear-gradient(180deg, #19130e, #100c09);
+    border-left: 1px solid rgba(217, 164, 65, .24);
+    box-shadow: -40px 0 80px -50px #000;
+    transform: translateX(102%);
+    transition: transform .38s cubic-bezier(.2, .8, .2, 1);
+  }
+  .drawer.is-open .drawer__panel { transform: translateX(0); }
+  .drawer__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .drawer__head h2 {
+    margin: 5px 0 0;
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: .03em;
+  }
+  .drawer__head .kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .24em;
+    color: var(--gold);
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--paper-dim);
+    font-size: 18px;
+    transition: all .2s;
+  }
+  .icon-btn:hover { border-color: var(--gold); color: var(--gold-2); }
+  .drawer__scroll { flex: 1; overflow-y: auto; padding: 22px 28px 30px; }
+  .drawer__art {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 20px;
+  }
+  .drawer__art img {
+    width: min(300px, 68%);
+    border: 1px solid #3a2d1d;
+    box-shadow: 0 30px 60px -35px #000, 0 0 0 1px rgba(217, 164, 65, .08);
+  }
+  .drawer__art .art-path {
+    position: absolute;
+    right: 0; bottom: 4px;
+    max-width: 56%;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #6e604b;
+    text-align: right;
+    word-break: break-all;
+  }
+  .banner {
+    margin-bottom: 18px;
+    padding: 11px 13px;
+    border-left: 2px solid var(--blood);
+    background: rgba(120, 34, 28, .13);
+    color: #dca99d;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .banner.ok { border-left-color: var(--jade); background: rgba(64, 104, 80, .12); color: #a9c9b6; }
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field.wide { grid-column: 1 / -1; }
+  .field label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 9px 10px;
+    background: #0e0b08;
+    border: 1px solid #33281a;
+    border-radius: 2px;
+    color: var(--paper);
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(217, 164, 65, .1);
+  }
+  .field input.is-regressed, .field select.is-regressed { border-color: #7d3b32; box-shadow: 0 0 0 2px rgba(192, 74, 61, .12); }
+  .field textarea { min-height: 104px; resize: vertical; line-height: 1.65; }
+  .field .old {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #9a6a4d;
+    word-break: break-all;
+  }
+  .race-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .race-grid label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 8px;
+    border: 1px solid #33281a;
+    border-radius: 2px;
+    font-family: var(--body);
+    font-size: 11px;
+    letter-spacing: 0;
+    color: var(--paper-dim);
+    text-transform: none;
+    cursor: pointer;
+  }
+  .race-grid input { width: auto; accent-color: var(--gold); }
+  .drawer__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 28px;
+    border-top: 1px solid var(--line-soft);
+    background: rgba(13, 11, 9, .86);
+    backdrop-filter: blur(8px);
+  }
+  .drawer__foot .hint {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .1em;
+    color: #6e604b;
+  }
+  .btn {
+    padding: 10px 18px;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--paper-dim);
+    font-size: 13px;
+    letter-spacing: .08em;
+    transition: all .2s;
+  }
+  .btn:hover { border-color: #6b5533; color: var(--paper); }
+  .btn.primary {
+    border-color: var(--gold);
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    color: #1a1209;
+    font-weight: 600;
+  }
+  .btn.primary:hover { filter: brightness(1.06); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  .toast {
+    position: fixed;
+    left: 50%; bottom: 28px;
+    z-index: 50;
+    transform: translate(-50%, 20px);
+    padding: 11px 18px;
+    background: #15110d;
+    border: 1px solid #3d6a51;
+    color: #b7d8c4;
+    font-size: 13px;
+    letter-spacing: .04em;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .25s;
+    box-shadow: 0 20px 40px -25px #000;
+  }
+  .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+  .toast.error { border-color: #7d3b32; color: #e2b3a8; }
+
+  .error-screen {
+    position: fixed; inset: 0; z-index: 60;
+    display: grid; place-items: center;
+    background: #0b0907;
+    padding: 30px;
+    text-align: center;
+  }
+  .error-screen h2 { font-family: var(--display); font-size: 28px; font-weight: 500; }
+  .error-screen pre { color: #c98d80; font-size: 12px; white-space: pre-wrap; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 720px) {
+    .masthead__top { align-items: flex-start; flex-direction: column; }
+    .ledger { align-self: stretch; justify-content: space-between; }
+    .ledger div { align-items: flex-start; }
+    .form-grid { grid-template-columns: 1fr; }
+    .drawer__panel { width: 100vw; }
+    .drawer__head, .drawer__scroll, .drawer__foot { padding-left: 18px; padding-right: 18px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+
+
+  /* ===== 月圆之夜图鉴 ===== */
+  a.tab { text-decoration: none; display: inline-flex; align-items: center; }
+  .codex-sub {
+    margin: 8px 0 0;
+    font-size: 12px;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+  .codex-sub b { color: var(--gold-2); font-weight: 500; }
+  .tile__golden {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    z-index: 2;
+    padding: 3px 7px;
+    background: rgba(20, 14, 8, .82);
+    border: 1px solid #8a6a2c;
+    color: var(--gold-2);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .12em;
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+  .tile__golden:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #1a120a;
+  }
+  .tile.is-golden-preview {
+    border-color: var(--gold);
+    box-shadow: 0 30px 48px -30px #000, 0 0 0 1px rgba(217, 164, 65, .55);
+  }
+  .codex-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+    gap: 10px;
+    margin: 0 0 18px;
+  }
+  .codex-stat {
+    padding: 10px 12px;
+    border: 1px solid var(--line-soft);
+    background: rgba(25, 19, 14, .72);
+  }
+  .codex-stat span {
+    display: block;
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .codex-stat label {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--muted);
+  }
+  .codex-desc {
+    padding: 14px 16px;
+    border-left: 2px solid var(--gold);
+    background: rgba(217, 164, 65, .06);
+    color: var(--paper);
+    line-height: 1.85;
+    white-space: pre-wrap;
+    font-size: 14px;
+  }
+  .codex-section { margin-top: 20px; }
+  .codex-section h3 {
+    margin: 0 0 9px;
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    color: var(--paper);
+  }
+  .codex-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .codex-tag {
+    padding: 5px 10px;
+    border: 1px solid #4a3b28;
+    background: rgba(217, 164, 65, .05);
+    color: #cbb78f;
+    font-size: 12px;
+  }
+  .codex-tag.is-active {
+    color: #1a1209;
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+  .golden-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 8px 14px;
+    border: 1px solid #8a6a2c;
+    background: rgba(217, 164, 65, .08);
+    color: var(--gold-2);
+    font-size: 12px;
+    letter-spacing: .08em;
+  }
+  .golden-toggle:hover { background: rgba(217, 164, 65, .16); }
+  .codex-hint { color: var(--muted); font-size: 12px; line-height: 1.8; }
+  .codex-skill {
+    padding: 12px 14px;
+    border: 1px solid var(--line-soft);
+    background: rgba(25, 19, 14, .6);
+    line-height: 1.8;
+  }
+  .codex-skill b { color: var(--gold-2); font-weight: 500; }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); }
+    .drawer__panel { width: 100vw; }
+  }
+
+</style>
+</head>
+<body>
+<div class="loading" id="loading">
+  <div class="loading__inner">
+    <div class="seal" style="margin:0 auto 18px">月</div>
+    <div class="spinner"></div>
+    <p>正在翻开图鉴…</p>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="brand">
+      <div class="seal">月</div>
+      <div>
+        <p class="eyebrow">MOONLIGHT NIGHT · CODEX</p>
+        <h1>月圆之夜图鉴</h1>
+        <p class="codex-sub">标准模式 · 随从、装备、咒术、英雄与特殊玩法</p>
+      </div>
+    </div>
+    <div class="ledger">
+      <div><span id="statTotal">—</span><label>卡牌</label></div>
+      <div><span id="statKinds">—</span><label>类别</label></div>
+      <div><span id="statKeywords">—</span><label>词条</label></div>
+    </div>
+  </div>
+  <nav class="tabs">
+    <span class="tab is-active">全部图鉴</span>
+    <a class="tab" href="guide.html">对局攻略 →</a>
+  </nav>
+  <div class="controls">
+    <label class="search"><span>检索</span><input id="search" type="search" placeholder="卡名 / 描述 / 词条" autocomplete="off"></label>
+    <div class="chips" id="kindChips"></div>
+    <div class="chips" id="subChips" hidden></div>
+    <label class="select" id="raceWrap"><span>种族</span><select id="raceFilter"><option value="">全部</option></select></label>
+    <label class="select" id="tierWrap"><span>星级</span><select id="tierFilter"><option value="">全部</option></select></label>
+    <div class="chips" id="keywordChips" hidden aria-label="特殊词条筛选"></div>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden><strong>没有找到卡牌</strong>换个分类或筛选条件试试。</div>
+  <div class="sentinel" id="sentinel"></div>
+</main>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-close></div>
+  <section class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div class="drawer__head">
+      <div>
+        <div class="kicker" id="drawerKicker">CODEX</div>
+        <h2 id="drawerTitle">—</h2>
+      </div>
+      <button class="icon-btn" data-close aria-label="关闭">×</button>
+    </div>
+    <div class="drawer__scroll" id="drawerBody"></div>
+  </section>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  const KIND_LABELS = {
+    follower: "随从", equipment: "装备", spell: "咒术", hero: "英雄",
+    partner: "舞伴", story: "故事", contract: "契约", treasure: "珍宝",
+    adventure: "奇遇",
+  };
+  const KIND_ORDER = ["follower", "equipment", "spell", "hero", "partner",
+                      "story", "contract", "treasure", "adventure"];
+  const RACES = ["中立", "战士", "自然", "龙", "机械", "幽灵", "野兽", "星裔", "元素"];
+  const SIDE_LABELS = { reward: "回报", cost: "代价" };
+
+  const state = {
+    cards: [], normals: [], goldens: new Map(), kinds: {},
+    kind: "", sub: "", race: "", tier: "", keyword: "", q: "",
+    limit: 180, active: null, showGolden: false,
+  };
+
+  const $ = (selector) => document.querySelector(selector);
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+  ));
+  const artUrl = (path) => "art/" + String(path).split("/").map(encodeURIComponent).join("/");
+  const displayValue = (value) => value === null || value === undefined || value === "" ? "—" : String(value);
+  const kindLabel = (kind) => KIND_LABELS[kind] || kind;
+
+  function stars(tier) {
+    const value = Number(tier);
+    if (!Number.isFinite(value) || value <= 0) return "—";
+    return "★".repeat(Math.min(value, 6));
+  }
+
+  function toast(message, isError = false) {
+    const el = $("#toast");
+    el.textContent = message;
+    el.classList.toggle("error", isError);
+    el.classList.add("is-visible");
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => el.classList.remove("is-visible"), 2400);
+  }
+
+  function matchesBase(card) {
+    if (state.kind && card.kind !== state.kind) return false;
+    if (state.sub) {
+      if (card.kind === "contract" && card.side !== state.sub) return false;
+      if (card.kind === "treasure" && card.pool !== state.sub) return false;
+      if (card.kind === "adventure" && card.card_type !== state.sub) return false;
+      if (!["contract", "treasure", "adventure"].includes(card.kind)) return false;
+    }
+    if (state.race && card.race !== state.race) return false;
+    if (state.tier && Number(card.tier) !== Number(state.tier)) return false;
+    const query = state.q.trim().toLowerCase();
+    if (query) {
+      const haystack = [card.name, card.name_ocr, card.description, card.card_type,
+                        card.mode, card.pool, card.race,
+                        ...(card.keywords || [])].filter(Boolean).join(" ").toLowerCase();
+      if (!haystack.includes(query)) return false;
+    }
+    return true;
+  }
+
+  function filtered() {
+    return state.normals.filter((card) => {
+      if (!matchesBase(card)) return false;
+      if (state.keyword === "__any__") return (card.keywords || []).length > 0;
+      if (state.keyword) return (card.keywords || []).includes(state.keyword);
+      return true;
+    });
+  }
+
+  function renderKindChips() {
+    const counts = {};
+    state.normals.forEach((card) => { counts[card.kind] = (counts[card.kind] || 0) + 1; });
+    const entries = [["", "全部"]].concat(
+      KIND_ORDER.filter((kind) => counts[kind]).map((kind) => [kind, kindLabel(kind)])
+    );
+    $("#kindChips").innerHTML = entries.map(([kind, label]) => (
+      '<button class="chip ' + (state.kind === kind ? "is-active" : "") + '" data-kind="' + kind + '">' +
+      escapeHtml(label) + (kind ? ' <span style="opacity:.55">' + counts[kind] + '</span>' : "") +
+      "</button>"
+    )).join("");
+  }
+
+  function renderSubChips() {
+    const box = $("#subChips");
+    const entries = state.kind === "contract"
+      ? [["", "全部"], ["reward", "回报"], ["cost", "代价"]]
+      : state.kind === "treasure"
+        ? [["", "全部"], ["普通", "普通"], ["高级", "高级"]]
+        : state.kind === "adventure"
+          ? [["", "全部"], ["随从", "随从"], ["咒术", "咒术"], ["奇遇", "奇遇"]]
+          : [];
+    if (!entries.length) {
+      box.hidden = true;
+      box.innerHTML = "";
+      return;
+    }
+    box.hidden = false;
+    box.innerHTML = entries.map(([value, label]) => (
+      '<button class="chip ' + (state.sub === value ? "is-active" : "") + '" data-sub="' + escapeHtml(value) + '">' +
+      escapeHtml(label) + "</button>"
+    )).join("");
+  }
+
+  function renderFilters() {
+    const races = [...new Set(state.normals
+      .filter((card) => !state.kind || card.kind === state.kind)
+      .map((card) => card.race).filter(Boolean))];
+    const raceSelect = $("#raceFilter");
+    raceSelect.innerHTML = '<option value="">全部</option>' + RACES
+      .filter((race) => races.includes(race))
+      .map((race) => '<option value="' + race + '"' + (state.race === race ? " selected" : "") + ">" + race + "</option>")
+      .join("");
+    $("#raceWrap").hidden = races.length === 0;
+
+    const tiers = [...new Set(state.normals
+      .filter((card) => !state.kind || card.kind === state.kind)
+      .map((card) => Number(card.tier)).filter((tier) => tier > 0))]
+      .sort((left, right) => left - right);
+    const tierSelect = $("#tierFilter");
+    tierSelect.innerHTML = '<option value="">全部</option>' + tiers.map((tier) => (
+      '<option value="' + tier + '"' + (String(state.tier) === String(tier) ? " selected" : "") + ">" + tier + " 星</option>"
+    )).join("");
+    $("#tierWrap").hidden = tiers.length === 0;
+  }
+
+  function renderKeywordChips() {
+    const counts = {};
+    let anyCount = 0;
+    state.normals.forEach((card) => {
+      if (!matchesBase(card)) return;
+      const words = card.keywords || [];
+      if (words.length) anyCount += 1;
+      words.forEach((word) => { counts[word] = (counts[word] || 0) + 1; });
+    });
+    if (state.keyword && state.keyword !== "__any__" && !(state.keyword in counts)) {
+      counts[state.keyword] = 0;
+    }
+    const entries = Object.entries(counts)
+      .sort((left, right) => (right[1] - left[1]) || left[0].localeCompare(right[0]));
+    const box = $("#keywordChips");
+    box.hidden = entries.length === 0 && anyCount === 0;
+    box.innerHTML = (entries.length || anyCount) ? (
+      '<button class="chip ' + (state.keyword ? "" : "is-active") + '" data-keyword="">不限词条</button>' +
+      '<button class="chip ' + (state.keyword === "__any__" ? "is-active" : "") + '" data-keyword="__any__">有词条 <span style="opacity:.55">' + anyCount + '</span></button>' +
+      entries.map(([word, count]) => (
+        '<button class="chip ' + (state.keyword === word ? "is-active" : "") + '" data-keyword="' + escapeHtml(word) + '">' +
+        escapeHtml(word) + ' <span style="opacity:.55">' + count + '</span></button>'
+      )).join("")
+    ) : "";
+  }
+
+  function cardStats(card) {
+    const parts = [];
+    if (card.kind === "contract") parts.push(SIDE_LABELS[card.side] || card.side);
+    if (card.kind === "treasure" && card.pool) parts.push(card.pool);
+    if (card.kind === "treasure" && card.cost !== null && card.cost !== undefined) parts.push(card.cost + " 金币");
+    if (card.kind === "adventure" && card.card_type) parts.push(card.card_type);
+    if (card.race) parts.push(card.race);
+    if (card.atk !== null && card.atk !== undefined) parts.push(card.atk + " / " + displayValue(card.hp));
+    if (card.kind === "story" && card.rounds) parts.push("回合 " + card.rounds);
+    if (card.kind === "hero" && card.skill_name) parts.push(card.skill_name);
+    return parts;
+  }
+
+  function tileHtml(card, index) {
+    const art = card.art && card.art_exists
+      ? '<img class="tile__art" loading="lazy" decoding="async" src="' + artUrl(card.art) + '" alt="' + escapeHtml(card.name) + '">'
+      : '<div class="tile__placeholder">缺图</div>';
+    const goldenCard = state.goldens.get(card.id);
+    const golden = goldenCard ? '<span class="tile__golden">金</span>' : "";
+    const goldenArt = goldenCard && goldenCard.art && goldenCard.art_exists
+      ? ' data-golden-art="' + escapeHtml(artUrl(goldenCard.art)) + '"'
+      : "";
+    const stats = cardStats(card);
+    return '<button class="tile" data-id="' + escapeHtml(card.id) + '"' + goldenArt + ' style="--i:' + Math.min(index, 22) + '">' +
+      golden + art +
+      '<div class="tile__body">' +
+        '<div class="tile__name"><span>' + escapeHtml(card.name || "未命名") + '</span></div>' +
+        '<div class="tile__meta">' +
+          '<span class="kind">' + escapeHtml(kindLabel(card.kind)) + '</span>' +
+          '<span class="stars">' + (Number(card.tier) > 0 ? card.tier + "★" : "") + '</span>' +
+          stats.map((text) => '<span>' + escapeHtml(text) + '</span>').join("") +
+        '</div>' +
+      '</div>' +
+    '</button>';
+  }
+
+  function updateCounts() {
+    const kinds = new Set(state.normals.map((card) => card.kind));
+    const keywords = new Set();
+    state.normals.forEach((card) => (card.keywords || []).forEach((word) => keywords.add(word)));
+    $("#statTotal").textContent = state.normals.length;
+    $("#statKinds").textContent = kinds.size;
+    $("#statKeywords").textContent = keywords.size;
+  }
+
+  function render() {
+    renderKindChips();
+    renderSubChips();
+    renderFilters();
+    renderKeywordChips();
+    updateCounts();
+    const rows = filtered();
+    const visible = rows.slice(0, state.limit);
+    $("#grid").innerHTML = visible.map((card, index) => tileHtml(card, index)).join("");
+    $("#empty").hidden = rows.length > 0;
+    $("#sentinel").dataset.more = rows.length > state.limit ? "1" : "";
+  }
+
+  function statBlock(value, label) {
+    return '<div class="codex-stat"><span>' + escapeHtml(displayValue(value)) + '</span><label>' + escapeHtml(label) + '</label></div>';
+  }
+
+  function detailHtml(card) {
+    const golden = card.variant === "golden";
+    const parent = golden ? state.cards.find((item) => item.id === card.parent_id) : null;
+    const child = !golden ? state.goldens.get(card.id) : null;
+    const base = golden ? (parent || card) : card;
+    const art = card.art && card.art_exists
+      ? '<img src="' + artUrl(card.art) + '" alt="' + escapeHtml(card.name) + '">'
+      : '<div class="tile__placeholder" style="width:min(300px,68%)">缺图</div>';
+
+    const stats = [
+      card.kind === "contract" ? statBlock(SIDE_LABELS[card.side] || card.side, "类型") : "",
+      card.kind === "treasure" ? statBlock(card.pool, "品质") : "",
+      card.kind === "treasure" ? statBlock(card.cost, "花费金币") : "",
+      card.kind === "adventure" ? statBlock(card.card_type, "卡牌类型") : "",
+      card.kind === "story" ? statBlock(card.rounds, "出现回合") : "",
+      card.kind === "hero" ? statBlock(card.extra_gold, "额外金币") : "",
+      card.race ? statBlock(card.race, "种族") : "",
+      Number(card.tier) > 0 ? statBlock(card.tier + " 星", "星级") : "",
+      card.atk !== null && card.atk !== undefined ? statBlock(card.atk + " / " + displayValue(card.hp), "攻击 / 生命") : "",
+    ].join("");
+
+    const keywords = (card.keywords || []).length
+      ? '<div class="codex-section"><h3>特殊词条</h3><div class="codex-tags">' +
+        card.keywords.map((word) => (
+          '<button class="codex-tag ' + (state.keyword === word ? "is-active" : "") + '" data-keyword="' + escapeHtml(word) + '">' + escapeHtml(word) + '</button>'
+        )).join("") + '</div></div>'
+      : "";
+
+    const skill = card.kind === "hero"
+      ? '<div class="codex-section"><h3>英雄技能</h3><div class="codex-skill">' +
+        '<b>' + escapeHtml(displayValue(card.skill_name)) + '</b>' +
+        (card.skill_type ? ' · ' + escapeHtml(card.skill_type) : "") +
+        (card.skill_cost !== null && card.skill_cost !== undefined ? ' · 消耗 ' + escapeHtml(card.skill_cost) + ' 金币' : "") +
+        (card.unlock_level !== null && card.unlock_level !== undefined ? ' · 等级 ' + escapeHtml(card.unlock_level) + ' 解锁' : "") +
+        '<br>' + escapeHtml(displayValue(card.skill_description)) + '</div></div>'
+      : "";
+
+    const goldenToggle = (child || golden)
+      ? '<button class="golden-toggle" data-golden="1">' +
+        (golden ? "查看普通版本" : "查看金色版本") + '</button>'
+      : "";
+
+    return '<div class="drawer__art">' + art + '</div>' +
+      goldenToggle +
+      '<div class="codex-stats">' + stats + '</div>' +
+      '<div class="codex-section"><h3>卡牌描述</h3><div class="codex-desc">' +
+        escapeHtml(displayValue(card.description)) + '</div></div>' +
+      keywords + skill;
+  }
+
+  function openDetail(card) {
+    state.active = card;
+    state.showGolden = false;
+    const drawer = $("#drawer");
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    const shown = state.showGolden && state.goldens.get(card.id) ? state.goldens.get(card.id) : card;
+    $("#drawerTitle").textContent = shown.name || "未命名";
+    $("#drawerKicker").textContent = kindLabel(shown.kind).toUpperCase() + (shown.variant === "golden" ? " · 金色" : "");
+    $("#drawerBody").innerHTML = detailHtml(shown);
+  }
+
+  function closeDetail() {
+    $("#drawer").classList.remove("is-open");
+    $("#drawer").setAttribute("aria-hidden", "true");
+    state.active = null;
+  }
+
+  function bindEvents() {
+    $("#kindChips").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-kind]");
+      if (!button) return;
+      state.kind = button.dataset.kind;
+      state.sub = "";
+      state.race = "";
+      state.tier = "";
+      state.keyword = "";
+      state.limit = 180;
+      render();
+    });
+
+    $("#subChips").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-sub]");
+      if (!button) return;
+      state.sub = button.dataset.sub;
+      state.limit = 180;
+      render();
+    });
+
+    $("#search").addEventListener("input", (event) => {
+      clearTimeout(state._searchTimer);
+      state._searchTimer = setTimeout(() => {
+        state.q = event.target.value;
+        state.limit = 180;
+        render();
+      }, 120);
+    });
+
+    $("#raceFilter").addEventListener("change", (event) => {
+      state.race = event.target.value;
+      state.limit = 180;
+      render();
+    });
+
+    $("#tierFilter").addEventListener("change", (event) => {
+      state.tier = event.target.value;
+      state.limit = 180;
+      render();
+    });
+
+    $("#keywordChips").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-keyword]");
+      if (!button) return;
+      state.keyword = button.dataset.keyword || "";
+      state.limit = 180;
+      render();
+    });
+
+    $("#grid").addEventListener("click", (event) => {
+      const tile = event.target.closest("[data-id]");
+      if (!tile) return;
+      const card = state.normals.find((item) => item.id === tile.dataset.id);
+      if (card) openDetail(card);
+    });
+
+    $("#grid").addEventListener("mouseover", (event) => {
+      const badge = event.target.closest(".tile__golden");
+      if (!badge) return;
+      const tile = badge.closest(".tile");
+      const img = tile && tile.querySelector(".tile__art");
+      if (!tile || !img || !tile.dataset.goldenArt) return;
+      if (!tile.classList.contains("is-golden-preview")) {
+        tile.dataset.normalArt = img.getAttribute("src") || "";
+        tile.classList.add("is-golden-preview");
+      }
+      img.src = tile.dataset.goldenArt;
+    });
+
+    $("#grid").addEventListener("mouseout", (event) => {
+      const badge = event.target.closest(".tile__golden");
+      if (!badge) return;
+      const tile = badge.closest(".tile");
+      if (!tile || !tile.classList.contains("is-golden-preview")) return;
+      const img = tile.querySelector(".tile__art");
+      if (img && tile.dataset.normalArt) img.src = tile.dataset.normalArt;
+      tile.classList.remove("is-golden-preview");
+    });
+
+    $("#drawer").addEventListener("click", (event) => {
+      if (event.target.closest("[data-close]")) {
+        closeDetail();
+        return;
+      }
+      const keywordButton = event.target.closest("[data-keyword]");
+      if (keywordButton) {
+        state.keyword = keywordButton.dataset.keyword || "";
+        state.limit = 180;
+        render();
+        document.querySelectorAll("#drawerBody [data-keyword]").forEach((tag) => {
+          tag.classList.toggle("is-active", tag.dataset.keyword === state.keyword);
+        });
+        return;
+      }
+      const goldenButton = event.target.closest("[data-golden]");
+      if (goldenButton) {
+        const basis = state.showGolden ? (state.cards.find((item) => item.id === state.active.parent_id) || state.active) : state.active;
+        state.showGolden = !state.showGolden;
+        state.active = basis;
+        const shown = state.showGolden && state.goldens.get(basis.id) ? state.goldens.get(basis.id) : basis;
+        $("#drawerTitle").textContent = shown.name || "未命名";
+        $("#drawerKicker").textContent = kindLabel(shown.kind).toUpperCase() + (shown.variant === "golden" ? " · 金色" : "");
+        $("#drawerBody").innerHTML = detailHtml(shown);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeDetail();
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      if ($("#sentinel").dataset.more !== "1") return;
+      state.limit += 180;
+      render();
+    }, { rootMargin: "500px" });
+    observer.observe($("#sentinel"));
+  }
+
+  async function boot() {
+    try {
+      const response = await fetch("cards.json");
+      if (!response.ok) throw new Error("接口返回异常");
+      const payload = await response.json();
+      state.cards = payload.cards || [];
+      state.normals = state.cards.filter((card) => card.variant !== "golden");
+      state.goldens = new Map();
+      state.cards.forEach((card) => {
+        if (card.variant === "golden" && card.parent_id) state.goldens.set(card.parent_id, card);
+      });
+      render();
+      bindEvents();
+      $("#loading").classList.add("is-done");
+    } catch (error) {
+      const screen = document.createElement("div");
+      screen.className = "error-screen";
+      screen.innerHTML = "<div><h2>图鉴打不开</h2><p>" + escapeHtml(error.message) + "</p></div>";
+      document.body.appendChild(screen);
+    }
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>
